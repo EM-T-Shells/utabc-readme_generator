@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 // TODO: Create an array of questions for user input
-const questions = [];
+//const questions = [
 inquirer.prompt(
    [
       {
@@ -90,6 +90,7 @@ inquirer.prompt(
          type: 'input',
          message: "License type?",
          name: 'license',
+         choices: [MIT, GPL, APACHE, GNU, 'N/A'],
          validate: (value)=>
          {
             if(value)
@@ -172,31 +173,28 @@ inquirer.prompt(
       # Contact
       * github:${github}
       * email:${email}`;
-      *
+
       //function to create readme w. fs
       createNewFile(title, template);
 
    }
 );
 
+// TODO: Create a function to initialize app
 //createNewFile Fx
-function createNewFile(fileName, data)
+function generateNewFile(fileName, data)
 {
-   fs.writeFile(`./${fileName.toLowerCase().split('').join('')}.md`, data)
-      if(err){
+   fs.writeFile(`./${fileName.toLowerCase().split('').join('')}.md`, data, (err) =>
+   {
+      if(err)
+      {
       console.log(err)
-   }
-   console.log('README generated')
-
+      }
+      console.log('README generated');
+   })
 }
 
-//instal node packages
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// TODO: Create a function to initialize app
-function init() {}
 
 // Function call to initialize app
 init();
