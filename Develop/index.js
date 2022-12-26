@@ -1,200 +1,51 @@
-// TODO: Include packages needed for this application
-const inquirer = require('inquirer');
-const fs = require('fs');
+function init () {
 
-// TODO: Create an array of questions for user input
-//const questions = [
-inquirer.prompt(
-   [
+  const inquirer = require('inquirer');
+  const fs = require('fs');
+  const generate = require('./utils/generateMarkdown.js');
+  const path = require('path');
+
+  inquirer
+    .prompt([
       {
-         type: 'input',
-         message: "What's the project Title?",
-         name: 'title',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
+        type: "input",
+        message: "What is a good Title for your project?",
+        name: "title",
+           },
+      {
+        type: "input",
+        message: "What is a good Description of your project?",
+        name: "description",
+           },
+      {
+         type: "input",
+         message: "How do you Install your application?",
+         name: "installation",
       },
       {
-         type: 'input',
-         message: "Project Description?",
-         name: 'description',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Description Required'
-            }
-         }
+          type: "input",
+          message: "How do you Use your application?",
+          name: "usage",
       },
       {
-         type: 'input',
-         message: "Installation directions?",
-         name: 'installation',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
+          type: "checkbox",
+          message: "What License did you use for this repository?",
+          choices: ["MIT", "GNU General Public License 2.0", "Apache License 2.0", "GNU General Public License 3.0"],
+          name: "license",
       },
       {
-         type: 'input',
-         message: "Provide instructions and examples for use.",
-         name: 'usage',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
+          type: "input",
+          message: "What is your GitHub username?",
+          name: "github"
       },
       {
-         type: 'input',
-         message: "Credits: List collaborators, if any.",
-         name: 'credits',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
+          type: "input",
+          message: "What is your email address where users and contributors can send questions?",
+          name: "email"
       },
-      {
-         type: 'input',
-         message: "License type?",
-         name: 'license',
-         choices: [MIT, GPL, APACHE, GNU, 'N/A'],
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
-      },
-      {
-         type: 'input',
-         message: "GitHub username?",
-         name: 'github',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
-      },
-      {
-         type: 'input',
-         message: "E-Mail?",
-         name: 'email',
-         validate: (value)=>
-         {
-            if(value)
-            {
-               return true
-            }
-            else
-            {
-               return 'Value Required'
-            }
-         }
-      }
-   ]
-)
-.then((
-{
-   title,
-   description,
-   installation,
-   usage,
-   credits,
-   license,
-   github,
-   email
-}) =>
-   {
-      //template
-      const template =
-      `# ${title}
-
-      * [description](#description)
-      * [installation](#installation)
-      * [usage](#usage)
-      * [credits](#credits)
-      * [license](#license)
-
-      ## description
-      ${description}
-      ## installation
-      ${installation}
-      ## usage
-      ${usage}
-      ## credits
-      ${credits}
-      ## license
-      ${license}
-
-      # Contact
-      * github:${github}
-      * email:${email}`;
-
-      //function to create readme w. fs
-      createNewFile(title, template);
-
-   }
-);
-
-// TODO: Create a function to initialize app
-//createNewFile Fx
-function generateNewFile(fileName, data)
-{
-   fs.writeFile(`./${fileName.toLowerCase().split('').join('')}.md`, data, (err) =>
-   {
-      if(err)
-      {
-      console.log(err)
-      }
-      console.log('README generated');
-   })
-}
-
-
-
-// Function call to initialize app
+    ])
+    .then((response) => {
+      return fs.writeFileSync(path.join (process.cwd(), "README.md"), generate(response));
+    });
+  }
 init();
