@@ -23,6 +23,11 @@ function init () {
          name: "installation",
       },
       {
+        type: "input",
+        message: "How do you Install your application?",
+        name: "installation",
+     },
+      {
           type: "input",
           message: "How do you Use your application?",
           name: "usage",
@@ -32,6 +37,21 @@ function init () {
           message: "What License did you use for this repository?",
           choices: ["MIT", "GNU General Public License 2.0", "Apache License 2.0", "GNU General Public License 3.0"],
           name: "license",
+      },
+      {
+          type: "input",
+          message: "How can people Contribute to your project?",
+          name: "contributing",
+      },
+     {
+          type: "input",
+          message: "How do people update the tests for your project?",
+          name: "tests"
+      },
+      {
+        type: "input",
+        message: "Questions about current or comments on further development?",
+        name: "questions-comments"
       },
       {
           type: "input",
@@ -48,4 +68,5 @@ function init () {
       return fs.writeFileSync(path.join (process.cwd(), "README.md"), generate(response));
     });
   }
+
 init();
